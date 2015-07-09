@@ -1,26 +1,28 @@
-This is a template to get started with the STM32F0xx series of chips using
-a pure GCC and Makefile setup.
+STM32F0XX
+==========
 
-This is made to compile projects with the STM Standard Peripheral Library
-and flash them using the JLink Segger Programmer over SWD. 
+This is a template to use the STM32F0xx with GCC and Makefiles.
 
-The following commands are supported:
+It currently only runs on linux, and flashes programs with the JLink Segger programmer over SWD.
 
-Make:
-	Builds program
+To use this code:
 
-Make debug:
-	Builds program with debugging
+1) Download the STM [Standard Peripheral Library](http://www.st.com/web/catalog/tools/FM147/CL1794/SC961/SS1743/LN1939)
+for you chip series. Place it in a persistent location.
 
-Make flash:
-	Flashes program to the STM32F0
+2) Download and install the [JLink tools](https://www.segger.com/jlink-software.html)
+for your platform. Make sure that the binaries are added to your path.
 
-Make erase-all:
-	Erases flash
+3) Edit the application Makefile to specify:
+	-your specfic STM32F0xx device
+	-the location of the Standard Peripheral Library
+	-the location of the makefile template above (if not cloned recursively)
+	-any source files that you use
 
-Make startdebug:
-	Starts a JLinkGDBServer debug session
-
-Note that the example Makefile must be modified to point to the Library
-and Template paths on your system.
+4) Use the supported commands to program and debug the chip:
+	-make
+	-make debug
+	-make flash
+	-make erase-all
+	-make startdebug
 
