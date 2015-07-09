@@ -14,15 +14,15 @@ for you chip series. Place it in a persistent location.
 for your platform. Make sure that the binaries are added to your path.
 
 3) Edit the application Makefile to specify:
-	-your specfic STM32F0xx device
-	-the location of the Standard Peripheral Library
-	-the location of the makefile template above (if not cloned recursively)
-	-any source files that you use
+	-your specfic STM32F0xx device\n
+	-the location of the Standard Peripheral Library\n
+	-the location of the makefile template above (if not cloned recursively)\n
+	-any source files that you use\n
 
 4) Use the supported commands to program and debug the chip:
-	-make
-	-make debug
-	-make flash
-	-make erase-all
-	-make startdebug
+	-make\n
+	-make debug\n
+	-make flash\n
+	-make erase-all\n
+	-make startdebug\n
 
