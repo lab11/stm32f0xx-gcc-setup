@@ -15,24 +15,17 @@ for your platform. Make sure that the binaries are added to your path.
 
 3) Edit the application Makefile to specify:
 
-	-your specfic STM32F0xx device
-
-	-the location of the Standard Peripheral Library
-
-	-the location of the makefile template above (if not cloned recursively)
-
-	-any source files that you use
+    -your specfic STM32F0xx device
+    -the location of the Standard Peripheral Library
+    -the location of the makefile template above (if not cloned recursively)
+    -any source files that you use
 
 4) Use the supported commands to program and debug the chip:
 
-	-make
-
-	-make debug
-
-	-make flash
-
-	-make erase-all
-
-	-make startdebug
+    -`make`: Compile
+    -`make flash`: Program the chip
+    -`make debug`: Run gdb
+    -`make erase-all`: Full erase of the chip
+    -`make startdebug`
 
 
