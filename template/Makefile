@@ -11,7 +11,7 @@ LIBRARY_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_StdPeriph_Driver/inc/
 LIBRARY_PATHS += ./
 
 
-SOURCE_PATHS += $(TEMPLATE_PATH) 
+SOURCE_PATHS += $(TEMPLATE_PATH)
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_StdPeriph_Driver/src/
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates
 
@@ -42,7 +42,7 @@ VPATH = $(SOURCE_PATHS)
 OUTPUT_PATH = _build/
 
 CPUFLAGS = -mthumb -mcpu=cortex-m0 -march=armv6-m
-CFLAGS += -std=gnu99 -c $(CPUFLAGS) -nostdlib -Wall -D$(DEVICE) $(LIBRARY_INCLUDES) -include $(FILE_INCLUDES) -MD
+CFLAGS += -std=gnu99 -c $(CPUFLAGS) -nostdlib -Wall -D$(DEVICE_FAMILY) $(LIBRARY_INCLUDES) -include $(FILE_INCLUDES) -MD
 LDFLAGS += $(CPUFLAGS) -L $(TEMPLATE_PATH) -L$(LINKER_SCRIPT_INCLUDES) -T $(LINKER_SCRIPT) -Wl,--gc-sections -Wl,-Map=$(OUTPUT_PATH)$(OUTPUT_NAME).Map
 
 HEX = $(OUTPUT_PATH)$(OUTPUT_NAME).hex
@@ -61,7 +61,7 @@ all: $(OBJS) $(OBJS_AS) $(HEX)
 
 debug: CFLAGS += -g
 debug: $(OBJS) $(OBJS_AS) $(HEX)
- 
+
 rebuild: clean all
 
 ifeq ($(OS),Windows_NT)
@@ -81,7 +81,7 @@ size: $(ELF)
 
 $(OUTPUT_PATH)%.o: %.c
 	$(MAKE_BUILD_FOLDER)
-	$(CC) $(LDFLAGS) $(CFLAGS) $< -o $@ 
+	$(CC) $(LDFLAGS) $(CFLAGS) $< -o $@
 
 $(OUTPUT_PATH)%.os: %.s
 	$(MAKE_BUILD_FOLDER)
