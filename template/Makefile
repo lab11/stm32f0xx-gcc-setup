@@ -2,7 +2,9 @@
 #This file assumes that the standard peripheral library is installed
 #currently tested on V1.5 with limited test code
 
-START_CODE ?= startup_stm32f0xx.s
+DEVICE_FAMILY_LOWER = $(shell echo $(DEVICE_FAMILY) | tr A-Z a-z)
+
+START_CODE ?= startup_$(DEVICE_FAMILY_LOWER).s
 SYSTEM_FILE ?= system_stm32f0xx.c
 
 LIBRARY_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Include
@@ -16,6 +18,7 @@ SOURCE_PATHS += $(TEMPLATE_PATH)
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_StdPeriph_Driver/src/
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_CPAL_Driver/src/
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates
+SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates/gcc_ride7
 
 
 #Setup toolchain
@@ -32,7 +35,7 @@ GDB = $(TOOLCHAIN_PATH)$(TOOLCHAIN_PREFIX)-gdb
 
 print-% : ; @echo $* = $($*)
 
-LINKER_SCRIPT ?= stm32f0.ld
+LINKER_SCRIPT ?= stm32f0_$(DEVICE_FAMILY_LOWER).ld
 LINKER_SCRIPT_INCLUDES = $(TEMPLATE_PATH)ld
 OUTPUT_NAME ?= $(PROJECT_NAME)
 
