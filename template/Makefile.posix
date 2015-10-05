@@ -34,7 +34,9 @@ ID_SECON = $(word 5,$(ID_BYTES))$(word 6,$(ID_BYTES))$(word 7,$(ID_BYTES))$(word
 flash.jlink:
 	printf "r\n" > flash.jlink
 	printf "w4 0x08007ff8, 0x$(ID_SECON) 0x$(ID_FIRST)\n" >> flash.jlink
-	printf "loadbin $(BIN) $(FLASH_START_ADDRESS)\nr\ng\nexit\n" >> flash.jlink
+	printf "loadbin $(BIN) $(FLASH_START_ADDRESS)\n" >> flash.jlink
+	printf "$(USER_FLASH_COMMANDS)\n" >> flash.jlink
+	printf "r\ng\nexit\n" >> flash.jlink
 
 endif
 
