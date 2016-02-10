@@ -29,6 +29,10 @@ flash.jlink:
 else
 # Write the ID to flash as well
 ID_BYTES = $(subst :, ,$(ID))
+NUM_ID_BYTES = $(words $(ID_BYTES))
+ifneq ($(NUM_ID_BYTES),8)
+$(error "Invalid number of bytes in ID string (expecting 8)")
+endif
 ID_FIRST = $(word 1,$(ID_BYTES))$(word 2,$(ID_BYTES))$(word 3,$(ID_BYTES))$(word 4,$(ID_BYTES))
 ID_SECON = $(word 5,$(ID_BYTES))$(word 6,$(ID_BYTES))$(word 7,$(ID_BYTES))$(word 8,$(ID_BYTES))
 flash.jlink:
