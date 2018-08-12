@@ -18,38 +18,44 @@ void delay(int count)
 int main(void)
 {
 
-  /* GPIOC Periph clock enable */
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+  /* GPIOB Periph clock enable */
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 
     for (;;)
     {
-      // Turn on both LEDs
-      GPIOC->BSRR = 0x0300;
+      // Turn on all LEDs
+      GPIOB->BSRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
 
       // Around 1/4 of a second
       delay(2400000);
 
-      // Turn off the first led
-      GPIOC->BRR = 0x0100;
+      // Turn off Blue and Green, turning LED Red
+      GPIOB->BRR = GPIO_Pin_4 | GPIO_Pin_5;
 
       delay(2400000);
 
-      // Turn off the second LED and the on the first
-      GPIOC->BRR = 0x0200;
-      GPIOC->BSRR = 0x0100;
+      // Turn off the Red and On the Blue LED
+      GPIOB->BRR  = GPIO_Pin_3;
+      GPIOB->BSRR = GPIO_Pin_4;
 
       delay(2400000);
 
-      // Turn off first
-      GPIOC->BRR = 0x0100;
+      // Turn off the Blue and On the Green LED
+      GPIOB->BRR  = GPIO_Pin_4;
+      GPIOB->BSRR = GPIO_Pin_5;
+
+      delay(2400000);
+
+      // Turn off all LEDs
+      GPIOB->BRR = GPIO_Pin_5;
 
       delay(2400000);
     }

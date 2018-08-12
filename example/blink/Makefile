@@ -8,12 +8,12 @@ APPLICATION_SRCS += stm32f0xx_rcc.c
 
 #The exact STM part number All CAPS
 ############################################
-DEVICE = STM32F051R8
-DEVICE_FAMILY = STM32F051
+DEVICE = STM32F091CC
+DEVICE_FAMILY = STM32F091
 
 #The install locations of the STM Standard library
 #################################################
-LIBRARY_START_PATH ?= $(HOME)/code/stm/STM32F0xx_StdPeriph_Lib_V1.5.0/
+LIBRARY_START_PATH ?= ../../../sdk/stm32f0xx-1.5.0/
 
 #The location of the gcc setup template
 ################################################
