@@ -7,7 +7,7 @@ It currently only runs on linux, and flashes programs with the JLink Segger prog
 
 To use this code:
 
-1. Download the STM [Standard Peripheral Library](http://www.st.com/web/catalog/tools/FM147/CL1794/SC961/SS1743/LN1939)
+1. Download the STM [Standard Peripheral Library](https://www.st.com/content/st_com/en/products/embedded-software/mcus-embedded-software/stm32-embedded-software/stm32-standard-peripheral-libraries/stsw-stm32048.html)
 for the STMF0xx. Place it in a persistent location.
 
 2. Download and install the [JLink tools](https://www.segger.com/jlink-software.html)
