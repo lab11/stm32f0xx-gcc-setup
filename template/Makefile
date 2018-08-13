@@ -4,7 +4,13 @@
 
 DEVICE_FAMILY_LOWER = $(shell echo $(DEVICE_FAMILY) | tr A-Z a-z)
 
+# Use chip specific file if family file is not available
+ifeq ($(DEVICE_FAMILY), STM32F091)
+START_CODE ?= startup_stm32f091xc.s
+else
 START_CODE ?= startup_$(DEVICE_FAMILY_LOWER).s
+endif
+
 SYSTEM_FILE ?= system_stm32f0xx.c
 
 LIBRARY_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Include
@@ -18,7 +24,13 @@ SOURCE_PATHS += $(TEMPLATE_PATH)
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_StdPeriph_Driver/src/
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/STM32F0xx_CPAL_Driver/src/
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates
+
+# Use GCC toolchain if not supported in GCC_RIDE7 toolchain
+#ifeq ($(DEVICE_FAMILY), STM32F091)
+#SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates/gcc
+#else
 SOURCE_PATHS += $(LIBRARY_START_PATH)Libraries/CMSIS/Device/ST/STM32F0xx/Source/Templates/gcc_ride7
+#endif
 
 
 #Setup toolchain

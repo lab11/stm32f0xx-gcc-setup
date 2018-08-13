@@ -1,5 +1,7 @@
 #include "stm32f0xx_gpio.h"
 #include "stm32f0xx_rcc.h"
+#include "SEGGER_RTT.h"
+#include "SEGGER_RTT_Conf.h"
 
 GPIO_InitTypeDef  GPIO_InitStructure;
 
@@ -28,6 +30,9 @@ int main(void)
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
+    // Initialized RTT
+    SEGGER_RTT_Init();
+    debug_msg("Initialized RTT, ready for further debugging...\r\n");
 
     for (;;)
     {

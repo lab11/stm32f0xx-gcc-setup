@@ -1,5 +1,5 @@
 /*
-Linker subscript for STM32F051 definitions with 256K Flash and 32K RAM
+Linker subscript for STM32F091 definitions with 256K Flash and 32K RAM
 */
 
 /* Memory Spaces Definitions */
@@ -14,3 +14,6 @@ MEMORY
 
 /* highest address of the user mode stack */
 _estack = 0x20008000;
+
+/* include the sections management sub-script for FLASH mode */
+INCLUDE "sections_flash.ld"

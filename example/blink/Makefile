@@ -5,6 +5,7 @@ PROJECT_NAME = $(shell basename "$(realpath ./)")
 APPLICATION_SRCS = $(notdir $(wildcard ./*.c))
 APPLICATION_SRCS += stm32f0xx_gpio.c
 APPLICATION_SRCS += stm32f0xx_rcc.c
+APPLICATION_SRCS += SEGGER_RTT.c
 
 #The exact STM part number All CAPS
 ############################################
