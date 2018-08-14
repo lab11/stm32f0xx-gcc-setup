@@ -19,8 +19,7 @@ void delay(int count)
 /// Main function.  Called by the startup code.
 int main(void)
 {
-
-  /* GPIOB Periph clock enable */
+    /* GPIOB Periph clock enable */
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
@@ -34,34 +33,51 @@ int main(void)
     SEGGER_RTT_Init();
     debug_msg("Initialized RTT, ready for further debugging...\r\n");
 
+    /* LEDS
+       Red:   GPIO_Pin_3
+       Blue:  GPIO_Pin_4
+       Green: GPIO_Pin_5
+
+       1: LED off
+       0: LED on (pull-down)
+
+       Usage: BSRR: Bit Set/Reset register -> least significant 16 bits set, most significant 16 bits clear pins
+              BRR:  Bit     Reset register -> least significant 16 bits reset
+    */
+
+    // Init all LEDs as off
+    GPIOB->BSRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+
     for (;;)
     {
-      // Turn on all LEDs
-      GPIOB->BSRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+      const int DELAY_CYCLES = 2400000;
+
+      // Turn on all LEDs, resulting in white light
+      GPIOB->BRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
 
       // Around 1/4 of a second
-      delay(2400000);
+      delay(DELAY_CYCLES);
 
       // Turn off Blue and Green, turning LED Red
-      GPIOB->BRR = GPIO_Pin_4 | GPIO_Pin_5;
+      GPIOB->BSRR = GPIO_Pin_4 | GPIO_Pin_5;
 
-      delay(2400000);
+      delay(DELAY_CYCLES);
 
       // Turn off the Red and On the Blue LED
-      GPIOB->BRR  = GPIO_Pin_3;
-      GPIOB->BSRR = GPIO_Pin_4;
+      GPIOB->BSRR  = GPIO_Pin_3;
+      GPIOB->BRR = GPIO_Pin_4;
 
-      delay(2400000);
+      delay(DELAY_CYCLES);
 
       // Turn off the Blue and On the Green LED
-      GPIOB->BRR  = GPIO_Pin_4;
-      GPIOB->BSRR = GPIO_Pin_5;
-
-      delay(2400000);
-
-      // Turn off all LEDs
+      GPIOB->BSRR  = GPIO_Pin_4;
       GPIOB->BRR = GPIO_Pin_5;
 
-      delay(2400000);
+      delay(DELAY_CYCLES);
+
+      // Turn off all LEDs
+      GPIOB->BSRR = GPIO_Pin_5;
+
+      delay(DELAY_CYCLES);
     }
 }
