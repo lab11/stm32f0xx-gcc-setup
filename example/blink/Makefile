@@ -12,6 +12,13 @@ APPLICATION_SRCS += SEGGER_RTT.c
 DEVICE = STM32F091CC
 DEVICE_FAMILY = STM32F091
 
+# Adjust clock speed of HSE (High-Speed external oscillator)
+ifeq ($(DEVICE_FAMILY), STM32F091)
+# Use 16 MHz external oscillator
+HSE_CLK_FREQ = 16000000
+CFLAGS += -DHSE_VALUE=$(HSE_CLK_FREQ)
+endif
+
 #The install locations of the STM Standard library
 #################################################
 LIBRARY_START_PATH ?= ../../../sdk/stm32f0xx-1.5.0/
@@ -32,7 +39,7 @@ ifndef LIBRARY_START_PATH
 $(error An LIBRARY_START_PATH must be defined. Edit Makefile to define a valid LIBRARY_PATH)
 endif
 
-CFLAGS = -Os
+CFLAGS += -Os
 GDB_PORT_NUMBER = 2331
 
 include $(TEMPLATE_PATH)Makefile

@@ -33,11 +33,11 @@ int main(void)
     SEGGER_RTT_Init();
     debug_msg("Initialized RTT, ready for further debugging...\r\n");
 
-    /* LEDS
-       Red:   GPIO_Pin_3
-       Blue:  GPIO_Pin_4
-       Green: GPIO_Pin_5
-
+    /* LEDS */
+#define RED     GPIO_Pin_3
+#define BLUE    GPIO_Pin_4
+#define GREEN   GPIO_Pin_5
+    /*
        1: LED off
        0: LED on (pull-down)
 
@@ -46,38 +46,89 @@ int main(void)
     */
 
     // Init all LEDs as off
-    GPIOB->BSRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+    GPIOB->BSRR = RED | BLUE | GREEN;
 
     for (;;)
     {
-      const int DELAY_CYCLES = 2400000;
+        const int DELAY_CYCLES = 2400000;
 
-      // Turn on all LEDs, resulting in white light
-      GPIOB->BRR = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+        /* Check High-Speed External (HSE) Oscillator
+        debug_msg("Verifying HSE is stable...\r\n");
 
-      // Around 1/4 of a second
-      delay(DELAY_CYCLES);
+        // Check whether HSE is ready
+        _Bool CLK_RDY = RCC->CR & RCC_CR_HSERDY;
 
-      // Turn off Blue and Green, turning LED Red
-      GPIOB->BSRR = GPIO_Pin_4 | GPIO_Pin_5;
+        // Check whether HSE is turning unstable
+        _Bool CLK_UNSTABLE = RCC->CIR & RCC_CIR_CSSF;
 
-      delay(DELAY_CYCLES);
+        if (CLK_RDY)
+        {
+            GPIOB->BRR = GREEN;
 
-      // Turn off the Red and On the Blue LED
-      GPIOB->BSRR  = GPIO_Pin_3;
-      GPIOB->BRR = GPIO_Pin_4;
+            volatile int i;
+            for (i = 0; i < DELAY_CYCLES; i++) {}
 
-      delay(DELAY_CYCLES);
+            // Turn off all LEDs
+            GPIOB->BSRR = GREEN;
 
-      // Turn off the Blue and On the Green LED
-      GPIOB->BSRR  = GPIO_Pin_4;
-      GPIOB->BRR = GPIO_Pin_5;
+            for (i = 0; i < DELAY_CYCLES; i++) {}
 
-      delay(DELAY_CYCLES);
+        } else if (CLK_UNSTABLE) {
 
-      // Turn off all LEDs
-      GPIOB->BSRR = GPIO_Pin_5;
+            GPIOB->BRR = RED;
 
-      delay(DELAY_CYCLES);
+            volatile int i;
+            for (i = 0; i < DELAY_CYCLES; i++) {}
+
+            // Turn off all LEDs
+            GPIOB->BSRR = RED;
+
+            for (i = 0; i < DELAY_CYCLES; i++) {}
+
+        } else {
+
+            GPIOB->BRR = BLUE;
+
+            volatile int i;
+            for (i = 0; i < DELAY_CYCLES; i++) {}
+
+            // Turn off all LEDs
+            GPIOB->BSRR = BLUE;
+
+            for (i = 0; i < DELAY_CYCLES; i++) {}
+
+        }
+        */
+
+        /* Cycle through */
+        debug_msg("Test all states of the tri-state LED...\r\n");
+
+        // Turn on all LEDs, resulting in white light
+        GPIOB->BRR = RED | BLUE | GREEN;
+
+        // Around 1/4 of a second
+        delay(DELAY_CYCLES);
+
+        // Turn off Blue and Green, turning LED Red
+        GPIOB->BSRR = BLUE | GREEN;
+
+        delay(DELAY_CYCLES);
+
+        // Turn off the Red and On the Blue LED
+        GPIOB->BSRR = RED;
+        GPIOB->BRR  = BLUE;
+
+        delay(DELAY_CYCLES);
+
+        // Turn off the Blue and On the Green LED
+        GPIOB->BSRR = BLUE;
+        GPIOB->BRR  = GREEN;
+
+        delay(DELAY_CYCLES);
+
+        // Turn off all LEDs
+        GPIOB->BSRR = GREEN;
+
+        delay(DELAY_CYCLES);
     }
 }
