@@ -87,6 +87,9 @@ SECTIONS
     /* remove the debugging information from the standard libraries */
     /DISCARD/ :
     {
+     /* Discard information which is primarily for C++ debugging, as it overlaps with .data (https://stackoverflow.com/questions/30778614/arm-none-eabi-ld-section-arm-exidx-overlaps-section-data) */
+     *(.ARM.exidx*)
+
      libc.a ( * )
      libm.a ( * )
      libgcc.a ( * )
