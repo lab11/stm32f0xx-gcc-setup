@@ -27,17 +27,8 @@ ifndef ID
 flash.jlink:
 	printf "r\nloadbin $(BIN) $(FLASH_START_ADDRESS)\nr\ng\nexit\n" > flash.jlink
 else
-# Write the ID to flash as well
-ID_BYTES = $(subst :, ,$(ID))
-NUM_ID_BYTES = $(words $(ID_BYTES))
-ifneq ($(NUM_ID_BYTES),8)
-$(error "Invalid number of bytes in ID string (expecting 8)")
-endif
-ID_FIRST = $(word 1,$(ID_BYTES))$(word 2,$(ID_BYTES))$(word 3,$(ID_BYTES))$(word 4,$(ID_BYTES))
-ID_SECON = $(word 5,$(ID_BYTES))$(word 6,$(ID_BYTES))$(word 7,$(ID_BYTES))$(word 8,$(ID_BYTES))
 flash.jlink:
 	printf "r\n" > flash.jlink
-	printf "w4 0x08007ff8, 0x$(ID_SECON) 0x$(ID_FIRST)\n" >> flash.jlink
 	printf "loadbin $(BIN) $(FLASH_START_ADDRESS)\n" >> flash.jlink
 	printf "$(USER_FLASH_COMMANDS)\n" >> flash.jlink
 	printf "r\ng\nexit\n" >> flash.jlink
